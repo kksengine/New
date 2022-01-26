@@ -1,3 +1,7 @@
 # node_modules
 **node_modules
-** node_modules
+
+# docker에 있는 mysql DB
+/db/
+
+/New/back/dist/

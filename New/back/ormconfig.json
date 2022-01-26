@@ -1,0 +1,10 @@
+{
+  "type": "mysql",
+  "host": "localhost",
+  "port": 3306,
+  "username": "root",
+  "password": "1234",
+  "database": "cowork_db",
+  "entities": ["dist/**/*.entity{.ts,.js}", "**/*.entity{.d.ts,.js}"],
+  "synchronize": true
+}

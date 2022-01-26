@@ -45,29 +45,19 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
-## Test
+## 실행 방법
 
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+```
+$ https://docs.nestjs.com/
+$ 위 사이트 들어가서 nest.js를 설치 해야 함 (설치 방법: npm i -g @nestjs/cli)
+$ 설치 후, npm install
+$ install 한 후, npm run start (docker가 설치 되어 있어야 실행 가능)
+$ docker가 설치 되어 있지 않다면, 로컬에 mysql 설치 해야함
 ```
 
-## Support
+## mysql 설치 한 후
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
+```
+$ 1) 데이터베이스 생성
+$ 2) DB명 cowork_db
+```
