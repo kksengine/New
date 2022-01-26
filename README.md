@@ -29,49 +29,6 @@
 
 # git에 올리면 안 되는 파일 (**\***매우매우 중요**\***)
 
-- # compiled output
-  /dist
-  /node_modules
-
-\*\*node_modules
-
-# Logs
-
-logs
-_.log
-npm-debug.log_
-pnpm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-lerna-debug.log*
-
-# OS
-
-.DS_Store
-
-# Tests
-
-/coverage
-/.nyc_output
-
-# IDEs and editors
-
-/.idea
-.project
-.classpath
-.c9/
-_.launch
-.settings/
-_.sublime-workspace
-
-# IDE - VSCode
-
-.vscode/\*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
-
-# env 환경파일
-
-.env
+- .gitignore (깃이그노어 깃에 올리지 말아야 할 파일명들을 바로 이 곳에 넣어준다)
+- node_modules (노드모듈은 깃에 올리지 않는다.)
+- 이 외에도 다양하나 우선 이것만 알아두자.
