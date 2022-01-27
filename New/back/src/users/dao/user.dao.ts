@@ -46,7 +46,7 @@ export class UserRepo {
       const result = {
         success: true,
         email,
-        statusCode: 200,
+        statusCode: 201,
       };
       return { result };
     } catch (error) {

@@ -1,8 +1,8 @@
-import { BoardsService } from '../boards/services/boards.service';
+import { BoardsService } from '../../boards/services/boards.service';
 import { Injectable, Logger, UnauthorizedException } from '@nestjs/common';
-import { CreateUserDto } from './dto/user.dto';
+import { CreateUserDto } from '../dto/user.dto';
 import * as bcrypt from 'bcrypt';
-import { UserRepo } from './dao/user.dao';
+import { UserRepo } from '../dao/user.dao';
 import { RegisterSuccessReturn } from 'types';
 
 @Injectable()

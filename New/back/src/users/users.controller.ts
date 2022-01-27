@@ -7,7 +7,7 @@ import {
   Param,
   Delete,
 } from '@nestjs/common';
-import { UsersService } from './users.service';
+import { UsersService } from './services/users.service';
 import { CreateUserDto } from './dto/user.dto';
 import { RegisterSuccessReturn } from '../../types';
 
@@ -17,7 +17,7 @@ export class UsersController {
 
   @Post()
   create(@Body() createUserDto: CreateUserDto): Promise<RegisterSuccessReturn> {
-    return this.usersService.create(createUserDto);
+    return this.usersService.hashingPassword(createUserDto);
   }
 
   @Get()
