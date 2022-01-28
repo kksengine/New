@@ -10,8 +10,8 @@ import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { BoardsModule } from './boards/boards.module';
 import { APP_FILTER, MiddlewareBuilder } from '@nestjs/core';
-import { LoggerMiddleware } from './middlewares/logger.middleware';
-import { HttpExceptionFilter } from './exceptions/http-exception.filter';
+import { LoggerMiddleware } from './common/middlewares/logger.middleware';
+import { HttpExceptionFilter } from './common/exceptions/http-exception.filter';
 
 @Module({
   imports: [UsersModule, TypeOrmModule.forRoot(), BoardsModule],

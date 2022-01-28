@@ -10,7 +10,7 @@ import { Repository } from 'typeorm';
 import { CreateUserDto } from '../dto/user.dto';
 import { User } from '../entities/user.entity';
 import { RegisterSuccessReturn } from '../../../types';
-import { HttpExceptionFilter } from '../../exceptions/http-exception.filter';
+import { HttpExceptionFilter } from '../../common/exceptions/http-exception.filter';
 
 @Injectable()
 export class UserRepo {

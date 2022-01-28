@@ -1,4 +1,4 @@
-import { SuccessInterceptor } from './../interceptors/success.interceptor';
+import { SuccessInterceptor } from '../common/interceptors/success.interceptor';
 import {
   Controller,
   Get,
@@ -15,10 +15,11 @@ import {
 import { UsersService } from './services/users.service';
 import { CreateUserDto } from './dto/user.dto';
 import { RegisterSuccessReturn } from '../../types';
-import { HttpExceptionFilter } from 'src/exceptions/http-exception.filter';
+import { HttpExceptionFilter } from 'src/common/exceptions/http-exception.filter';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('users')
-@UseInterceptors(SuccessInterceptor)
+@UseInterceptors(SuccessInterceptor, FileInterceptor)
 @UseFilters(HttpExceptionFilter)
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
