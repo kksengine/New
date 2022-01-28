@@ -1,3 +1,4 @@
+import { SuccessInterceptor } from './../interceptors/success.interceptor';
 import {
   Controller,
   Get,
@@ -6,12 +7,19 @@ import {
   Patch,
   Param,
   Delete,
+  UseFilters,
+  HttpException,
+  ParseIntPipe,
+  UseInterceptors,
 } from '@nestjs/common';
 import { UsersService } from './services/users.service';
 import { CreateUserDto } from './dto/user.dto';
 import { RegisterSuccessReturn } from '../../types';
+import { HttpExceptionFilter } from 'src/exceptions/http-exception.filter';
 
 @Controller('users')
+@UseInterceptors(SuccessInterceptor)
+@UseFilters(HttpExceptionFilter)
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
@@ -21,14 +29,21 @@ export class UsersController {
   }
 
   @Get()
-  findAll() {
+  test() {
+    return { cats: ' get API !' };
+  }
+
+  @Get('/:id')
+  findAll(@Param('id', ParseIntPipe) params: number) {
+    console.log(params);
+    // throw new HttpException('api broken', 401);
     return this.usersService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.usersService.findOne(+id);
-  }
+  // @Get(':id')
+  // findOne(@Param('id') id: string) {
+  //   return this.usersService.findOne(+id);
+  // }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
