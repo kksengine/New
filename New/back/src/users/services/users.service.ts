@@ -1,9 +1,11 @@
+import { LoginData } from './../../../types';
 import { BoardsService } from '../../boards/services/boards.service';
 import { Injectable, Logger, UnauthorizedException } from '@nestjs/common';
 import { CreateUserDto } from '../dto/user.dto';
 import * as bcrypt from 'bcrypt';
 import { UserRepo } from '../dao/user.dao';
 import { RegisterSuccessReturn } from 'types';
+import passport from 'passport';
 
 @Injectable()
 export class UsersService {
@@ -30,6 +32,10 @@ export class UsersService {
     const salt = await bcrypt.genSalt();
     createUserDto.password = salt;
     return this.userRepository.createUser(createUserDto);
+  }
+
+  async login(loginData: LoginData) {
+    await this.userRepository.login(loginData);
   }
 
   findAll() {

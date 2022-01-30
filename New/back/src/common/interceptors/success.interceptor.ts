@@ -15,7 +15,7 @@ export class SuccessInterceptor implements NestInterceptor {
    * @description
    *      참조: https://docs.nestjs.com/faq/request-lifecycle
    *      interceptor(pre-controller, post-controller)
-   *      Request -> Middleware -> Guard -> Interceptor
+   *      Request -> MiddLoginInfoleware -> Guard -> Interceptor
    *      요청이 들어오면 위의 순대로 작동을 한다.
    *
    * @param context
@@ -25,8 +25,6 @@ export class SuccessInterceptor implements NestInterceptor {
    *      data (data: {result : {"success": true, "email": "email@email.com", "statusCode": number}})
    */
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
-    console.log('Before...');
-
     const now = Date.now();
     return next.handle().pipe(
       map((data) => ({

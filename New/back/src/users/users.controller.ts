@@ -1,3 +1,5 @@
+import { IsEmail } from 'class-validator';
+import { LoginData } from './../../types';
 import { SuccessInterceptor } from '../common/interceptors/success.interceptor';
 import {
   Controller,
@@ -17,6 +19,7 @@ import { CreateUserDto } from './dto/user.dto';
 import { RegisterSuccessReturn } from '../../types';
 import { HttpExceptionFilter } from 'src/common/exceptions/http-exception.filter';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { LoginInterceptor } from 'src/common/interceptors/login.interceptor';
 
 @Controller('users')
 @UseInterceptors(SuccessInterceptor, FileInterceptor)
@@ -27,6 +30,11 @@ export class UsersController {
   @Post()
   create(@Body() createUserDto: CreateUserDto): Promise<RegisterSuccessReturn> {
     return this.usersService.hashingPassword(createUserDto);
+  }
+
+  @Post('/login')
+  async loginController(@Body() loginData: LoginData): Promise<any> {
+    return this.usersService.login(loginData);
   }
 
   @Get()
@@ -40,11 +48,6 @@ export class UsersController {
     // throw new HttpException('api broken', 401);
     return this.usersService.findAll();
   }
-
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.usersService.findOne(+id);
-  // }
 
   @Delete(':id')
   remove(@Param('id') id: string) {

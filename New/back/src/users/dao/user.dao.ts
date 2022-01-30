@@ -6,13 +6,14 @@ import {
   UseFilters,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Connection, getConnection, getRepository, Repository } from 'typeorm';
 import { CreateUserDto } from '../dto/user.dto';
 import { User } from '../entities/user.entity';
-import { RegisterSuccessReturn } from '../../../types';
+import { LoginData, RegisterSuccessReturn } from '../../../types';
 import { HttpExceptionFilter } from '../../common/exceptions/http-exception.filter';
 
 @Injectable()
+@UseFilters(HttpExceptionFilter)
 export class UserRepo {
   private logger: Logger = new Logger(UserRepo.name);
 
@@ -39,7 +40,6 @@ export class UserRepo {
    *
    */
 
-  @UseFilters(HttpExceptionFilter)
   async createUser(
     createUserDto: CreateUserDto,
   ): Promise<RegisterSuccessReturn> {
@@ -71,6 +71,15 @@ export class UserRepo {
         },
         401,
       );
+    }
+  }
+
+  async login(logindata: LoginData) {
+    const { email } = logindata;
+    this.logger.log(email);
+    const users: User = await getRepository(User).findOne({ where: { email } });
+
+    if (users === undefined) {
     }
   }
 }
