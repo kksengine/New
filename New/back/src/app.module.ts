@@ -4,6 +4,7 @@ import {
   NestModule,
   RequestMethod,
 } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -12,11 +13,19 @@ import { BoardsModule } from './boards/boards.module';
 import { APP_FILTER, MiddlewareBuilder } from '@nestjs/core';
 import { LoggerMiddleware } from './common/middlewares/logger.middleware';
 import { HttpExceptionFilter } from './common/exceptions/http-exception.filter';
+import { AuthService } from './auth/auth.service';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
-  imports: [UsersModule, TypeOrmModule.forRoot(), BoardsModule],
+  imports: [
+    UsersModule,
+    TypeOrmModule.forRoot(),
+    BoardsModule,
+    ConfigModule.forRoot({ isGlobal: true }),
+    AuthModule,
+  ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, AuthService],
 })
 /**
  * @author 2022 .1.24 Joo

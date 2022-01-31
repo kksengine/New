@@ -27,3 +27,10 @@ export class JwtToken {
   @IsString()
   token: string;
 }
+
+export class JwtTokenReturn {
+  result: {
+    email: string;
+    token: string;
+  };
+}

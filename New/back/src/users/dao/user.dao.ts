@@ -1,3 +1,5 @@
+import { JwtTokenReturn } from './../../../types';
+import { ErrorCodes } from './../../../consts';
 import {
   BadRequestException,
   HttpException,
@@ -11,6 +13,9 @@ import { CreateUserDto } from '../dto/user.dto';
 import { User } from '../entities/user.entity';
 import { LoginData, RegisterSuccessReturn } from '../../../types';
 import { HttpExceptionFilter } from '../../common/exceptions/http-exception.filter';
+import * as bcrypt from 'bcrypt';
+import { JwtService } from '@nestjs/jwt';
+import passport from 'passport';
 
 @Injectable()
 @UseFilters(HttpExceptionFilter)
@@ -20,6 +25,7 @@ export class UserRepo {
   constructor(
     @InjectRepository(User)
     private userDAO: Repository<User>,
+    private jwtSerivce: JwtService,
   ) {}
 
   /**
@@ -54,7 +60,6 @@ export class UserRepo {
           password,
         })
         .execute();
-      this.logger.log('insert success');
       const result = {
         success: true,
         email,
@@ -74,12 +79,46 @@ export class UserRepo {
     }
   }
 
-  async login(logindata: LoginData) {
-    const { email } = logindata;
-    this.logger.log(email);
+  async login(logindata: LoginData): Promise<JwtTokenReturn> {
+    const { email, password } = logindata;
+
     const users: User = await getRepository(User).findOne({ where: { email } });
 
     if (users === undefined) {
+      throw new HttpException(
+        {
+          statusCode: 400,
+          message: '아이디가 없습니다.',
+          error: 'not found email',
+        },
+        401,
+      );
     }
+
+    const isMatch = await bcrypt.compare(password, users.password);
+
+    this.logger.log(isMatch, users.password);
+    if (!isMatch) {
+      this.logger.error(`${ErrorCodes.ERROR_RETURN}`);
+      throw new HttpException(
+        {
+          statusCode: 400,
+          message: '비밀번호가 틀렸습니다',
+          error: 'password is wrong',
+        },
+        401,
+      );
+    }
+
+    const payload: object = {
+      email: users.email,
+    };
+
+    return {
+      result: {
+        email: users.email,
+        token: this.jwtSerivce.sign(payload),
+      },
+    } as JwtTokenReturn;
   }
 }

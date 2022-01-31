@@ -1,5 +1,5 @@
 import { IsEmail } from 'class-validator';
-import { LoginData } from './../../types';
+import { JwtTokenReturn, LoginData } from './../../types';
 import { SuccessInterceptor } from '../common/interceptors/success.interceptor';
 import {
   Controller,
@@ -33,7 +33,7 @@ export class UsersController {
   }
 
   @Post('/login')
-  async loginController(@Body() loginData: LoginData): Promise<any> {
+  async loginController(@Body() loginData: LoginData): Promise<JwtTokenReturn> {
     return this.usersService.login(loginData);
   }
 

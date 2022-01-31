@@ -1,4 +1,4 @@
-import { LoginData } from './../../../types';
+import { JwtTokenReturn, LoginData } from './../../../types';
 import { BoardsService } from '../../boards/services/boards.service';
 import { Injectable, Logger, UnauthorizedException } from '@nestjs/common';
 import { CreateUserDto } from '../dto/user.dto';
@@ -29,13 +29,14 @@ export class UsersService {
     const saltOrRounds = 10;
 
     const hash = await bcrypt.hash(password, saltOrRounds);
-    const salt = await bcrypt.genSalt();
-    createUserDto.password = salt;
+    // const salt = await bcrypt.genSalt();
+    this.logger.log(hash);
+    createUserDto.password = hash;
     return this.userRepository.createUser(createUserDto);
   }
 
-  async login(loginData: LoginData) {
-    await this.userRepository.login(loginData);
+  async login(loginData: LoginData): Promise<JwtTokenReturn> {
+    return await this.userRepository.login(loginData);
   }
 
   findAll() {
