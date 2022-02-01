@@ -1,17 +1,23 @@
 import { JwtTokenReturn, LoginData } from './../../../types';
 import { BoardsService } from '../../boards/services/boards.service';
-import { Injectable, Logger, UnauthorizedException } from '@nestjs/common';
+import { Injectable, Logger, Res, UnauthorizedException } from '@nestjs/common';
 import { CreateUserDto } from '../dto/user.dto';
 import * as bcrypt from 'bcrypt';
 import { UserRepo } from '../dao/user.dao';
 import { RegisterSuccessReturn } from 'types';
 import passport from 'passport';
+import { Response } from 'express';
+import { InjectRepository } from '@nestjs/typeorm';
+import { User } from '../entities/user.entity';
 
 @Injectable()
 export class UsersService {
   private logger: Logger = new Logger(UsersService.name);
 
-  constructor(private readonly userRepository: UserRepo) {}
+  constructor(
+    // @InjectRepository(User)
+    private readonly userRepository: UserRepo,
+  ) {}
 
   /**
    * @author 2022.1.27 Joo
@@ -35,8 +41,9 @@ export class UsersService {
     return this.userRepository.createUser(createUserDto);
   }
 
-  async login(loginData: LoginData): Promise<JwtTokenReturn> {
-    return await this.userRepository.login(loginData);
+  async login(loginData: LoginData, @Res() res: Response) {
+    console.log('login');
+    return await this.userRepository.login(loginData, res);
   }
 
   findAll() {

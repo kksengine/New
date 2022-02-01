@@ -5,6 +5,7 @@ import {
   HttpException,
   Injectable,
   Logger,
+  Res,
   UseFilters,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -16,6 +17,7 @@ import { HttpExceptionFilter } from '../../common/exceptions/http-exception.filt
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import passport from 'passport';
+import { Response } from 'express';
 
 @Injectable()
 @UseFilters(HttpExceptionFilter)
@@ -79,8 +81,9 @@ export class UserRepo {
     }
   }
 
-  async login(logindata: LoginData): Promise<JwtTokenReturn> {
+  async login(logindata: LoginData, @Res() res: Response) {
     const { email, password } = logindata;
+    console.log('dao login function');
 
     const users: User = await getRepository(User).findOne({ where: { email } });
 
@@ -114,11 +117,24 @@ export class UserRepo {
       email: users.email,
     };
 
-    return {
-      result: {
-        email: users.email,
-        token: this.jwtSerivce.sign(payload),
-      },
-    } as JwtTokenReturn;
+    res
+      .cookie('access_token', payload, {
+        httpOnly: true,
+        domain: 'localhost',
+        expires: new Date(Date.now() + 1000 * 60 * 60 * 24),
+      })
+      .send({
+        result: {
+          email: users.email,
+          token: this.jwtSerivce.sign(payload),
+        },
+      });
+
+    // return {
+    //   result: {
+    //     email: users.email,
+    //     token: this.jwtSerivce.sign(payload),
+    //   },
+    // } as JwtTokenReturn;
   }
 }

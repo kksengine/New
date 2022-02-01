@@ -13,7 +13,6 @@ import { BoardsModule } from './boards/boards.module';
 import { APP_FILTER, MiddlewareBuilder } from '@nestjs/core';
 import { LoggerMiddleware } from './common/middlewares/logger.middleware';
 import { HttpExceptionFilter } from './common/exceptions/http-exception.filter';
-import { AuthService } from './auth/auth.service';
 import { AuthModule } from './auth/auth.module';
 
 @Module({
@@ -25,7 +24,7 @@ import { AuthModule } from './auth/auth.module';
     AuthModule,
   ],
   controllers: [AppController],
-  providers: [AppService, AuthService],
+  providers: [AppService],
 })
 /**
  * @author 2022 .1.24 Joo
